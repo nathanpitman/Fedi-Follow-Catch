@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fedi Follow Fetch — find your Bluesky ↔ Mastodon follow gaps</title>
+  <meta
+    name="description"
+    content="A free, client-side-only tool that compares your Bluesky and Mastodon follow lists (via Bridgy Fed) and shows who you're missing on each side. No backend, no accounts, nothing stored."
+  />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="page-header">
+    <h1>Fedi Follow Fetch</h1>
+    <p class="tagline">Find the gaps between who you follow on Bluesky and who you follow on Mastodon.</p>
+  </header>
+
+  <main>
+    <section class="trust" aria-labelledby="trust-heading">
+      <h2 id="trust-heading">How this works, and what it does with your credentials</h2>
+      <ul class="trust-points">
+        <li><strong>No backend.</strong> This is a static page. There is no server of ours involved anywhere.</li>
+        <li>
+          <strong>Nothing is stored.</strong> Your handle, password, and token live only in this browser tab's
+          memory. Refreshing or closing the page erases everything. Nothing is written to a database, cookie, or
+          <code>localStorage</code>.
+        </li>
+        <li>
+          <strong>Direct calls only.</strong> Your browser talks straight to <code>bsky.social</code> and to your
+          own Mastodon instance's API. We never see your credentials, and they are never logged anywhere.
+        </li>
+        <li><strong>Read-only.</strong> This tool never follows, unfollows, or posts anything. It only reads your two follow lists and shows you the difference — you decide what to do about it.</li>
+      </ul>
+      <p class="source-link">
+        Don't take our word for it —
+        <a href="https://github.com/nathanpitman/fedi-follow-fetch" target="_blank" rel="noopener noreferrer">read the source on GitHub</a>.
+      </p>
+    </section>
+
+    <form id="compare-form" class="connect">
+      <fieldset class="connect-card">
+        <legend>Connect Bluesky</legend>
+        <label for="bsky-handle">Handle</label>
+        <input id="bsky-handle" name="bsky-handle" type="text" placeholder="you.bsky.social" autocomplete="username" required />
+
+        <label for="bsky-app-password">App password</label>
+        <div class="password-row">
+          <input id="bsky-app-password" name="bsky-app-password" type="password" autocomplete="off" required />
+          <button type="button" class="show-toggle" data-target="bsky-app-password" aria-label="Show app password">Show</button>
+        </div>
+        <p class="field-help">
+          Never sent to any server but Bluesky's. Use an
+          <a href="https://bsky.app/settings/app-passwords" target="_blank" rel="noopener noreferrer">app password</a>,
+          not your main password — you can revoke it any time.
+        </p>
+      </fieldset>
+
+      <fieldset class="connect-card">
+        <legend>Connect Mastodon</legend>
+        <label for="mastodon-instance">Your instance</label>
+        <input id="mastodon-instance" name="mastodon-instance" type="text" placeholder="mastodon.social" autocomplete="off" required />
+
+        <label for="mastodon-token">Access token</label>
+        <div class="password-row">
+          <input id="mastodon-token" name="mastodon-token" type="password" autocomplete="off" required />
+          <button type="button" class="show-toggle" data-target="mastodon-token" aria-label="Show access token">Show</button>
+        </div>
+        <p class="field-help">
+          Never sent to any server but your instance's. On your instance, go to
+          <strong>Preferences → Development → New Application</strong>, give it any name, tick only
+          <strong>read:accounts</strong> and <strong>read:follows</strong>, submit, then copy
+          "Your access token". See
+          <a href="https://docs.joinmastodon.org/client/token/" target="_blank" rel="noopener noreferrer">Mastodon's guide</a>
+          if you get stuck.
+        </p>
+      </fieldset>
+
+      <div class="connect-actions">
+        <button type="submit" id="compare-button">Compare follows</button>
+        <p id="status-message" class="status-message" aria-live="polite"></p>
+        <p id="error-message" class="error-message" role="alert" hidden></p>
+      </div>
+    </form>
+
+    <section id="results" class="results" hidden>
+      <div class="columns">
+        <div class="column">
+          <h2>Follow on Mastodon <span class="count" id="count-mastodon"></span></h2>
+          <p class="column-help">Followed on Bluesky, not detected on Mastodon. Links open your instance's follow-confirmation page for the Bridgy Fed bridge account.</p>
+          <ul id="list-follow-on-mastodon" class="gap-list"></ul>
+          <p id="empty-mastodon" class="empty-state" hidden>No gaps found — you're following the bridge for everyone here.</p>
+        </div>
+        <div class="column">
+          <h2>Follow on Bluesky <span class="count" id="count-bluesky"></span></h2>
+          <p class="column-help">Followed on Mastodon, not detected on Bluesky. Links open the Bridgy Fed bridge account's Bluesky profile.</p>
+          <ul id="list-follow-on-bluesky" class="gap-list"></ul>
+          <p id="empty-bluesky" class="empty-state" hidden>No gaps found — you're following the bridge for everyone here.</p>
+        </div>
+      </div>
+
+      <section class="unmatched-section">
+        <h2>Unmatched / unbridged <span class="count" id="count-unmatched"></span></h2>
+        <p class="column-help">
+          No Bridgy Fed bridge could be confirmed for these accounts on either side. They might not have bridged
+          yet, or might use a setup this tool doesn't recognise — worth checking manually.
+        </p>
+        <ul id="list-unmatched" class="gap-list"></ul>
+        <p id="empty-unmatched" class="empty-state" hidden>None — every follow was matched or bridged.</p>
+      </section>
+
+      <button type="button" id="start-over-button" class="start-over">Start over</button>
+    </section>
+  </main>
+
+  <footer class="page-footer">
+    <p>
+      A free tool from <a href="https://nathanpitman.com" target="_blank" rel="noopener noreferrer">nathanpitman.com</a>.
+      No accounts, no analytics beyond the main site, no data collected.
+      <a href="https://github.com/nathanpitman/fedi-follow-fetch" target="_blank" rel="noopener noreferrer">Source on GitHub</a>
+      · MIT licensed.
+    </p>
+  </footer>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
