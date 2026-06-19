@@ -2,10 +2,13 @@ import { handleExists } from './bluesky.js';
 import { webfingerHasAccount } from './mastodon.js';
 import { blueskyHandleToBridgedMastodonAcct, mastodonAcctToBridgedBlueskyHandle } from './bridge.js';
 
-// Above this many unmatched accounts on one side, skip the live bridge-existence
-// check (one webfinger/resolveHandle call per account) so we don't hammer
-// bsky.brid.gy or the public AppView for visitors with very large follow lists.
-const MAX_BRIDGE_VERIFICATIONS = 250;
+// Above this many combined unmatched candidates (both sides together), skip the
+// live bridge-existence check entirely and route every candidate to `unmatched`
+// instead — both to avoid making thousands of sequential webfinger/resolveHandle
+// calls against bsky.brid.gy / public.api.bsky.app in one page load, and because
+// at VERIFY_CONCURRENCY 4 that many calls would mean minutes of wall-clock time
+// for the visitor. Most real follow lists stay well under this.
+const MAX_BRIDGE_VERIFICATIONS = 2000;
 const VERIFY_CONCURRENCY = 4;
 
 function normalizeText(s) {
@@ -115,53 +118,75 @@ export async function computeGaps({ blueskyFollows, mastodonFollowing, mastodonI
 
   if (skipVerification) {
     onStatus?.(
-      `${totalToVerify} unmatched accounts — skipping live bridge checks for a list this large (bridge status shown as unverified).`
+      `${totalToVerify} unmatched accounts — your follow lists are too large to live-verify bridge status safely, so they're listed as unmatched for manual checking.`
     );
-  } else if (totalToVerify > 0) {
-    onStatus?.(`Checking bridge status for ${totalToVerify} unmatched accounts…`);
-  }
 
-  await throttledForEach(blueskyAfterFuzzy, VERIFY_CONCURRENCY, async (b) => {
-    const acct = blueskyHandleToBridgedMastodonAcct(b.handle);
-    const exists = skipVerification ? null : await webfingerHasAccount('bsky.brid.gy', acct);
-    if (exists === false) {
+    for (const b of blueskyAfterFuzzy) {
       unmatched.push({
         source: 'bluesky',
         displayName: b.displayName || b.handle,
         handle: b.handle,
         profileUrl: `https://bsky.app/profile/${b.handle}`,
-        reason: 'No Bridgy Fed bridge detected on the fediverse side yet.',
-      });
-    } else {
-      followOnMastodon.push({
-        displayName: b.displayName || b.handle,
-        handle: b.handle,
-        followAcct: acct,
-        bridgeVerified: exists === true,
+        reason: 'Your follow list is too large to live-verify bridge status for this account — check manually.',
       });
     }
-  });
 
-  await throttledForEach(mastodonGapCandidates, VERIFY_CONCURRENCY, async (m) => {
-    const bridgedHandle = mastodonAcctToBridgedBlueskyHandle(m.fullAcct);
-    const exists = skipVerification ? null : await handleExists(bridgedHandle);
-    if (exists === false) {
+    for (const m of mastodonGapCandidates) {
       unmatched.push({
         source: 'mastodon',
         displayName: m.displayName || m.fullAcct,
         handle: m.fullAcct,
         profileUrl: m.url,
-        reason: 'No Bridgy Fed bridge detected on the Bluesky side yet.',
-      });
-    } else {
-      followOnBluesky.push({
-        displayName: m.displayName || m.fullAcct,
-        handle: bridgedHandle,
-        profileUrl: `https://bsky.app/profile/${bridgedHandle}`,
-        bridgeVerified: exists === true,
+        reason: 'Your follow list is too large to live-verify bridge status for this account — check manually.',
       });
     }
-  });
+  } else {
+    if (totalToVerify > 0) {
+      onStatus?.(`Checking bridge status for ${totalToVerify} unmatched accounts…`);
+    }
+
+    await throttledForEach(blueskyAfterFuzzy, VERIFY_CONCURRENCY, async (b) => {
+      const acct = blueskyHandleToBridgedMastodonAcct(b.handle);
+      const exists = await webfingerHasAccount('bsky.brid.gy', acct);
+      if (exists === false) {
+        unmatched.push({
+          source: 'bluesky',
+          displayName: b.displayName || b.handle,
+          handle: b.handle,
+          profileUrl: `https://bsky.app/profile/${b.handle}`,
+          reason: 'No Bridgy Fed bridge detected on the fediverse side yet.',
+        });
+      } else {
+        followOnMastodon.push({
+          displayName: b.displayName || b.handle,
+          handle: b.handle,
+          followAcct: acct,
+          bridgeVerified: exists === true,
+        });
+      }
+    });
+
+    await throttledForEach(mastodonGapCandidates, VERIFY_CONCURRENCY, async (m) => {
+      const bridgedHandle = mastodonAcctToBridgedBlueskyHandle(m.fullAcct);
+      const exists = await handleExists(bridgedHandle);
+      if (exists === false) {
+        unmatched.push({
+          source: 'mastodon',
+          displayName: m.displayName || m.fullAcct,
+          handle: m.fullAcct,
+          profileUrl: m.url,
+          reason: 'No Bridgy Fed bridge detected on the Bluesky side yet.',
+        });
+      } else {
+        followOnBluesky.push({
+          displayName: m.displayName || m.fullAcct,
+          handle: bridgedHandle,
+          profileUrl: `https://bsky.app/profile/${bridgedHandle}`,
+          bridgeVerified: exists === true,
+        });
+      }
+    });
+  }
 
   return { followOnMastodon, followOnBluesky, unmatched };
 }
