@@ -1,14 +1,21 @@
 :root {
-  --bg: #0f1419;
-  --surface: #1a2129;
-  --surface-2: #222b35;
-  --border: #2e3a46;
-  --text: #e8edf2;
-  --text-muted: #9aa8b5;
-  --accent: #4fb4ff;
-  --accent-strong: #1f8fe8;
-  --danger: #ff6b6b;
-  --radius: 10px;
+  --bg: #fdf6ec;
+  --surface: #ffffff;
+  --surface-2: #f4eefb;
+  --border: #e9dff2;
+  --text: #382f4d;
+  --text-muted: #665b7c;
+  --accent: #6f5fc4;
+  --accent-strong: #5b4aad;
+  --accent-soft: #efe9fb;
+  --blue: #1a66c2;
+  --blue-soft: #e8f1fb;
+  --danger: #c33b34;
+  --danger-soft: #fdecea;
+  --radius: 18px;
+  --radius-sm: 12px;
+  --shadow: 0 10px 28px -10px rgba(111, 95, 196, 0.28);
+  --shadow-sm: 0 4px 14px -6px rgba(111, 95, 196, 0.22);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -18,9 +25,15 @@
 
 body {
   margin: 0;
-  background: var(--bg);
   color: var(--text);
   line-height: 1.5;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(420px circle at 8% 0%, rgba(111, 95, 196, 0.14), transparent 60%),
+    radial-gradient(480px circle at 100% 18%, rgba(26, 102, 194, 0.12), transparent 60%),
+    radial-gradient(360px circle at 12% 95%, rgba(195, 59, 52, 0.08), transparent 60%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 main {
@@ -34,14 +47,26 @@ main {
   padding: 2.5rem 1.25rem 1.5rem;
 }
 
+.hero-illustration {
+  max-width: 420px;
+  width: 100%;
+  height: auto;
+  margin: 0 auto 0.5rem;
+  display: block;
+}
+
 .page-header h1 {
   margin: 0 0 0.4rem;
-  font-size: 2rem;
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--accent-strong);
 }
 
 .tagline {
   color: var(--text-muted);
   margin: 0;
+  font-size: 1.05rem;
 }
 
 .trust {
@@ -50,20 +75,41 @@ main {
   border-radius: var(--radius);
   padding: 1.5rem;
   margin-bottom: 1.75rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .trust h2 {
   margin-top: 0;
   font-size: 1.1rem;
+  color: var(--accent-strong);
 }
 
 .trust-points {
   margin: 0 0 1rem;
-  padding-left: 1.25rem;
+  padding-left: 0;
+  list-style: none;
 }
 
 .trust-points li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
+  padding-left: 1.75rem;
+  position: relative;
+}
+
+.trust-points li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  width: 1.25rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--blue);
+  border-radius: 50%;
 }
 
 .trust-points code {
@@ -88,11 +134,14 @@ main {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .connect-card legend {
-  font-weight: 600;
+  font-weight: 700;
   padding: 0 0.25rem;
+  font-size: 1.05rem;
+  color: var(--accent-strong);
 }
 
 .connect-card label {
@@ -109,9 +158,16 @@ main {
   padding: 0.55rem 0.65rem;
   background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   color: var(--text);
   font-size: 1rem;
+}
+
+.connect-card input[type='text']:focus,
+.connect-card input[type='password']:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-soft);
 }
 
 .password-row {
@@ -126,11 +182,16 @@ main {
 .show-toggle {
   background: var(--surface-2);
   border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 6px;
+  color: var(--accent-strong);
+  border-radius: var(--radius-sm);
   padding: 0 0.75rem;
   cursor: pointer;
   font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.show-toggle:hover {
+  background: var(--accent-soft);
 }
 
 .field-help {
@@ -140,7 +201,7 @@ main {
 }
 
 .field-help a {
-  color: var(--accent);
+  color: var(--blue);
 }
 
 .connect-actions {
@@ -162,23 +223,28 @@ main {
 
 #compare-button,
 .start-over {
-  background: var(--accent-strong);
+  background: linear-gradient(135deg, var(--accent), var(--blue));
   color: #fff;
   border: none;
-  padding: 0.7rem 1.75rem;
-  font-size: 1rem;
+  padding: 0.75rem 2rem;
+  font-size: 1.05rem;
+  font-weight: 700;
   border-radius: 999px;
   cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 #compare-button:disabled {
   opacity: 0.6;
   cursor: wait;
+  transform: none;
 }
 
 #compare-button:hover:not(:disabled),
 .start-over:hover {
-  background: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
 }
 
 .status-message {
@@ -189,9 +255,9 @@ main {
 
 .error-message {
   color: var(--danger);
-  background: rgba(255, 107, 107, 0.1);
-  border: 1px solid rgba(255, 107, 107, 0.4);
-  border-radius: 8px;
+  background: var(--danger-soft);
+  border: 1px solid rgba(224, 82, 74, 0.35);
+  border-radius: var(--radius-sm);
   padding: 0.6rem 0.9rem;
   margin: 0.75rem auto 0;
   max-width: 32rem;
@@ -207,9 +273,22 @@ main {
   gap: 1.5rem;
 }
 
+.column {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
 .column h2 {
   font-size: 1.05rem;
-  margin-bottom: 0.3rem;
+  margin: 0 0 0.3rem;
+  color: var(--accent-strong);
+}
+
+.column--bluesky h2 {
+  color: var(--blue);
 }
 
 .matching-explainer {
@@ -220,12 +299,13 @@ main {
   margin-bottom: 1.5rem;
   color: var(--text-muted);
   font-size: 0.9rem;
+  box-shadow: var(--shadow-sm);
 }
 
 .matching-explainer summary {
   cursor: pointer;
-  font-weight: 600;
-  color: var(--text);
+  font-weight: 700;
+  color: var(--accent-strong);
 }
 
 .matching-explainer ol {
@@ -250,8 +330,9 @@ main {
 .unmatched-section summary {
   cursor: pointer;
   font-size: 1.05rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 0.3rem;
+  color: var(--accent-strong);
 }
 
 .count {
@@ -279,9 +360,9 @@ main {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  background: var(--surface);
+  background: var(--surface-2);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius-sm);
   padding: 0.6rem 0.8rem;
 }
 
@@ -300,7 +381,7 @@ main {
 }
 
 .display-name {
-  font-weight: 500;
+  font-weight: 600;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -322,9 +403,10 @@ main {
 
 .follow-link {
   flex-shrink: 0;
-  color: var(--accent);
+  color: var(--blue);
   text-decoration: none;
   font-size: 0.9rem;
+  font-weight: 600;
   white-space: nowrap;
 }
 
@@ -341,7 +423,7 @@ main {
   font-size: 0.7rem;
   padding: 0.15rem 0.45rem;
   border-radius: 999px;
-  background: var(--surface-2);
+  background: var(--surface);
   color: var(--text-muted);
   border: 1px solid var(--border);
   white-space: nowrap;
@@ -349,7 +431,7 @@ main {
 
 .unmatched-section {
   margin-top: 2.25rem;
-  opacity: 0.85;
+  opacity: 0.92;
 }
 
 .row-unmatched .row-text {
@@ -370,6 +452,14 @@ main {
 .empty-state {
   color: var(--text-muted);
   font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.empty-state::before {
+  content: '✨';
+  font-size: 1.1rem;
 }
 
 .start-over {
@@ -384,8 +474,16 @@ main {
   padding: 2rem 1.25rem;
 }
 
+.footer-flourish {
+  display: block;
+  width: 60px;
+  height: auto;
+  margin: 0 auto 0.5rem;
+  opacity: 0.9;
+}
+
 .page-footer a {
-  color: var(--accent);
+  color: var(--blue);
 }
 
 @media (max-width: 760px) {

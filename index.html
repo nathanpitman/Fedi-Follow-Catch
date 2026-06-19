@@ -8,10 +8,23 @@
     name="description"
     content="A free, client-side-only tool that compares your Bluesky and Mastodon follow lists (via Bridgy Fed) and shows who you're missing on each side. No backend, no accounts, nothing stored."
   />
+  <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="img/favicon-180.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
   <header class="page-header">
+    <picture>
+      <source srcset="img/hero-elephant-butterfly.webp" type="image/webp" />
+      <img
+        class="hero-illustration"
+        src="img/hero-elephant-butterfly.png"
+        alt="A purple elephant happily tossing a ball to a blue butterfly"
+        width="1503"
+        height="657"
+      />
+    </picture>
     <h1>Fedi Follow Fetch</h1>
     <p class="tagline">Find the gaps between who you follow on Bluesky and who you follow on Mastodon.</p>
   </header>
@@ -42,7 +55,7 @@
 
     <form id="compare-form" class="connect">
       <fieldset class="connect-card">
-        <legend>Connect Bluesky</legend>
+        <legend>🦋 Connect Bluesky</legend>
         <label for="bsky-handle">Handle</label>
         <input id="bsky-handle" name="bsky-handle" type="text" placeholder="you.bsky.social" autocomplete="username" required />
 
@@ -59,7 +72,7 @@
       </fieldset>
 
       <fieldset class="connect-card">
-        <legend>Connect Mastodon</legend>
+        <legend>🐘 Connect Mastodon</legend>
         <label for="mastodon-instance">Your instance</label>
         <input id="mastodon-instance" name="mastodon-instance" type="text" placeholder="mastodon.social" autocomplete="off" required />
 
@@ -100,14 +113,14 @@
       </details>
 
       <div class="columns">
-        <div class="column">
-          <h2>Follow on Mastodon <span class="count" id="count-mastodon"></span></h2>
+        <div class="column column--mastodon">
+          <h2>🐘 Follow on Mastodon <span class="count" id="count-mastodon"></span></h2>
           <p class="column-help">Followed on Bluesky, not detected on Mastodon. Links open your instance's follow-confirmation page for the Bridgy Fed bridge account.</p>
           <ul id="list-follow-on-mastodon" class="gap-list"></ul>
           <p id="empty-mastodon" class="empty-state" hidden>No gaps found — you're following the bridge for everyone here.</p>
         </div>
-        <div class="column">
-          <h2>Follow on Bluesky <span class="count" id="count-bluesky"></span></h2>
+        <div class="column column--bluesky">
+          <h2>🦋 Follow on Bluesky <span class="count" id="count-bluesky"></span></h2>
           <p class="column-help">Followed on Mastodon, not detected on Bluesky. Links open the Bridgy Fed bridge account's Bluesky profile.</p>
           <ul id="list-follow-on-bluesky" class="gap-list"></ul>
           <p id="empty-bluesky" class="empty-state" hidden>No gaps found — you're following the bridge for everyone here.</p>
@@ -129,6 +142,10 @@
   </main>
 
   <footer class="page-footer">
+    <picture>
+      <source srcset="img/butterfly.webp" type="image/webp" />
+      <img class="footer-flourish" src="img/butterfly.png" alt="" aria-hidden="true" width="60" height="62" />
+    </picture>
     <p>
       A free tool from <a href="https://nathanpitman.com" target="_blank" rel="noopener noreferrer">nathanpitman.com</a>.
       No accounts, no analytics beyond the main site, no data collected.
