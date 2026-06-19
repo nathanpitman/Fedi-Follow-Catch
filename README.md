@@ -60,9 +60,12 @@ has no build step and no minification to obscure what it's doing.
      so the tool can tell "definitely not bridged yet" apart from "bridged,
      just not followed" — the former goes into a separate "unmatched /
      unbridged" list instead of getting a follow link that wouldn't work.
-     (Skipped for accounts beyond a 250-account-per-side cap, to avoid
-     hammering Bridgy Fed for visitors with very large follow lists — those
-     are shown as unverified instead.)
+     (Skipped only if the combined total of unmatched accounts on both sides
+     exceeds 2,000, to avoid making thousands of live checks against Bridgy
+     Fed/Bluesky's public AppView in one page load for visitors with
+     exceptionally large follow lists — in that case every still-unmatched
+     account is listed as unmatched for manual checking, rather than handed
+     a follow link that might not work yet.)
 5. Renders two columns — **Follow on Mastodon** and **Follow on Bluesky** —
    each with a one-click follow link, plus the de-emphasised unmatched
    section. "Mark as done" is a session-only checkbox/strikethrough; nothing
