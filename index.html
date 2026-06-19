@@ -33,19 +33,9 @@
     <section class="trust" aria-labelledby="trust-heading">
       <h2 id="trust-heading">How this works, and what it does with your credentials</h2>
       <ul class="trust-points">
-        <li><strong>No backend.</strong> This is a static page. There is no server of ours involved anywhere.</li>
-        <li>
-          <strong>Your password and token are never stored.</strong> They live only in this browser tab's memory —
-          refreshing or closing the page erases them, and they're never written to a database, cookie, or
-          <code>localStorage</code>. If you tick "remember my handle &amp; instance" below, only those two
-          non-secret fields are saved to this browser's <code>localStorage</code> for 30 days, purely so you don't
-          have to retype them next time.
-        </li>
-        <li>
-          <strong>Direct calls only.</strong> Your browser talks straight to <code>bsky.social</code> and to your
-          own Mastodon instance's API. We never see your credentials, and they are never logged anywhere.
-        </li>
-        <li><strong>Read-only.</strong> This tool never follows, unfollows, or posts anything. It only reads your two follow lists and shows you the difference — you decide what to do about it.</li>
+        <li><strong>No backend.</strong> Your browser talks directly to <code>bsky.social</code> and your Mastodon instance's API — we never see or log your credentials.</li>
+        <li><strong>Nothing is stored.</strong> Your password and token live only in this tab's memory and vanish on refresh. The optional "remember my handle &amp; instance" below saves just those two non-secret fields, never your password or token.</li>
+        <li><strong>Read-only.</strong> We only read your two follow lists and show the difference — never follow, unfollow, or post.</li>
       </ul>
       <p class="source-link">
         Don't take our word for it —
