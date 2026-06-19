@@ -22,9 +22,11 @@
       <ul class="trust-points">
         <li><strong>No backend.</strong> This is a static page. There is no server of ours involved anywhere.</li>
         <li>
-          <strong>Nothing is stored.</strong> Your handle, password, and token live only in this browser tab's
-          memory. Refreshing or closing the page erases everything. Nothing is written to a database, cookie, or
-          <code>localStorage</code>.
+          <strong>Your password and token are never stored.</strong> They live only in this browser tab's memory —
+          refreshing or closing the page erases them, and they're never written to a database, cookie, or
+          <code>localStorage</code>. If you tick "remember my handle &amp; instance" below, only those two
+          non-secret fields are saved to this browser's <code>localStorage</code> for 30 days, purely so you don't
+          have to retype them next time.
         </li>
         <li>
           <strong>Direct calls only.</strong> Your browser talks straight to <code>bsky.social</code> and to your
@@ -77,6 +79,10 @@
       </fieldset>
 
       <div class="connect-actions">
+        <label class="remember-row">
+          <input type="checkbox" id="remember-me" />
+          Remember my handle &amp; instance for 30 days on this device (never your password or token)
+        </label>
         <button type="submit" id="compare-button">Compare follows</button>
         <p id="status-message" class="status-message" aria-live="polite"></p>
         <p id="error-message" class="error-message" role="alert" hidden></p>

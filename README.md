@@ -21,12 +21,16 @@ layer on top: read-only, advisory, and entirely manual to act on.
 This is a **100% static page with no backend**. There is no server, no
 database, and no API route belonging to this project. Concretely:
 
-- Your Bluesky handle/app password and Mastodon instance/access token are
-  held only in this browser tab's JavaScript memory. They are never written
-  to `localStorage`, a cookie, or sent anywhere except directly to
-  `bsky.social` and the exact Mastodon instance domain you type in.
-- Refreshing or closing the tab erases everything. There is no "remember
-  me" and nothing to log out of.
+- Your Bluesky app password and Mastodon access token are held only in this
+  browser tab's JavaScript memory. They are never written to `localStorage`,
+  a cookie, or sent anywhere except directly to `bsky.social` and the exact
+  Mastodon instance domain you type in.
+- Refreshing or closing the tab erases your password and token — there's
+  nothing to log out of. Optionally, ticking "remember my handle & instance"
+  saves just those two non-secret fields (never your password or token) to
+  `localStorage` for 30 days, purely so a returning visitor doesn't have to
+  retype them; leaving it unticked (or letting the 30 days lapse) means
+  nothing persists at all, as before.
 - The only third-party API calls this page ever makes are to: `bsky.social`,
   `public.api.bsky.app` (Bluesky's public, unauthenticated AppView, used only
   to check whether a bridge handle exists), `bsky.brid.gy` (Bridgy Fed's
