@@ -210,17 +210,6 @@ main {
   padding-top: 0.5rem;
 }
 
-.remember-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-bottom: 0.85rem;
-  cursor: pointer;
-}
-
 #compare-button,
 .start-over {
   background: linear-gradient(135deg, var(--accent), var(--blue));
