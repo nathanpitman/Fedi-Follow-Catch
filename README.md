@@ -26,11 +26,7 @@ database, and no API route belonging to this project. Concretely:
   a cookie, or sent anywhere except directly to `bsky.social` and the exact
   Mastodon instance domain you type in.
 - Refreshing or closing the tab erases your password and token — there's
-  nothing to log out of. Optionally, ticking "remember my handle & instance"
-  saves just those two non-secret fields (never your password or token) to
-  `localStorage` for 30 days, purely so a returning visitor doesn't have to
-  retype them; leaving it unticked (or letting the 30 days lapse) means
-  nothing persists at all, as before.
+  nothing to log out of, and nothing persists at all.
 - The only third-party API calls this page ever makes are to: `bsky.social`,
   `public.api.bsky.app` (Bluesky's public, unauthenticated AppView, used only
   to check whether a bridge handle exists), `bsky.brid.gy` (Bridgy Fed's

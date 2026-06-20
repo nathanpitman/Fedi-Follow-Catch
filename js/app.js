@@ -2,7 +2,6 @@ import * as bsky from './bluesky.js';
 import * as mastodon from './mastodon.js';
 import { computeGaps } from './match.js';
 import { renderFollowOnMastodon, renderFollowOnBluesky, renderUnmatched } from './render.js';
-import { loadRemembered, saveRemembered, forgetRemembered } from './remember.js';
 
 const form = document.getElementById('compare-form');
 const compareButton = document.getElementById('compare-button');
@@ -12,7 +11,6 @@ const resultsSection = document.getElementById('results');
 const startOverButton = document.getElementById('start-over-button');
 const handleInput = document.getElementById('bsky-handle');
 const instanceInput = document.getElementById('mastodon-instance');
-const rememberCheckbox = document.getElementById('remember-me');
 
 document.querySelectorAll('.show-toggle').forEach((button) => {
   button.addEventListener('click', () => {
@@ -22,13 +20,6 @@ document.querySelectorAll('.show-toggle').forEach((button) => {
     button.textContent = showing ? 'Show' : 'Hide';
   });
 });
-
-const remembered = loadRemembered();
-if (remembered) {
-  handleInput.value = remembered.handle;
-  instanceInput.value = remembered.instanceHost;
-  rememberCheckbox.checked = true;
-}
 
 startOverButton.addEventListener('click', () => {
   // A full reload is the simplest guarantee that nothing — credentials included — lingers in memory.
@@ -64,12 +55,6 @@ form.addEventListener('submit', async (event) => {
   const blueskyAppPassword = document.getElementById('bsky-app-password').value;
   const mastodonInstanceHost = mastodon.normalizeInstanceHost(instanceInput.value);
   const mastodonToken = document.getElementById('mastodon-token').value;
-
-  if (rememberCheckbox.checked) {
-    saveRemembered(blueskyHandle, mastodonInstanceHost);
-  } else {
-    forgetRemembered();
-  }
 
   try {
     setStatus('Connecting to Bluesky and Mastodon…');
