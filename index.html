@@ -45,23 +45,6 @@
 
     <form id="compare-form" class="connect">
       <fieldset class="connect-card">
-        <legend>🦋 Connect Bluesky</legend>
-        <label for="bsky-handle">Handle</label>
-        <input id="bsky-handle" name="bsky-handle" type="text" placeholder="you.bsky.social" autocomplete="username" required />
-
-        <label for="bsky-app-password">App password</label>
-        <div class="password-row">
-          <input id="bsky-app-password" name="bsky-app-password" type="password" autocomplete="off" required />
-          <button type="button" class="show-toggle" data-target="bsky-app-password" aria-label="Show app password">Show</button>
-        </div>
-        <p class="field-help">
-          Never sent to any server but Bluesky's. Use an
-          <a href="https://bsky.app/settings/app-passwords" target="_blank" rel="noopener noreferrer">app password</a>,
-          not your main password — you can revoke it any time.
-        </p>
-      </fieldset>
-
-      <fieldset class="connect-card">
         <legend>🐘 Connect Mastodon</legend>
         <label for="mastodon-instance">Your instance</label>
         <input id="mastodon-instance" name="mastodon-instance" type="text" placeholder="mastodon.social" autocomplete="off" required />
@@ -78,6 +61,23 @@
           "Your access token". See
           <a href="https://docs.joinmastodon.org/client/token/" target="_blank" rel="noopener noreferrer">Mastodon's guide</a>
           if you get stuck.
+        </p>
+      </fieldset>
+
+      <fieldset class="connect-card">
+        <legend>🦋 Connect Bluesky</legend>
+        <label for="bsky-handle">Handle</label>
+        <input id="bsky-handle" name="bsky-handle" type="text" placeholder="you.bsky.social" autocomplete="username" required />
+
+        <label for="bsky-app-password">App password</label>
+        <div class="password-row">
+          <input id="bsky-app-password" name="bsky-app-password" type="password" autocomplete="off" required />
+          <button type="button" class="show-toggle" data-target="bsky-app-password" aria-label="Show app password">Show</button>
+        </div>
+        <p class="field-help">
+          Never sent to any server but Bluesky's. Use an
+          <a href="https://bsky.app/settings/app-passwords" target="_blank" rel="noopener noreferrer">app password</a>,
+          not your main password — you can revoke it any time.
         </p>
       </fieldset>
 
