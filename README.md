@@ -1,4 +1,4 @@
-# Follow Catch
+# Fedi Follow Catch
 
 A free, static, client-side-only tool that compares your Bluesky and Mastodon
 follow lists — bridged via [Bridgy Fed](https://fed.brid.gy/) — and shows you
