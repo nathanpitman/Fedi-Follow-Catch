@@ -91,7 +91,7 @@
       <details class="matching-explainer">
         <summary>How does the matching work?</summary>
         <ol>
-          <li><strong>Handle convention.</strong> Bridgy Fed bridges accounts using a predictable handle, e.g. Bluesky's <code>alice.bsky.social</code> becomes <code>@alice.bsky.social@bsky.brid.gy</code> on the fediverse, and vice versa. We first check whether your other follow list already contains that exact bridged account.</li>
+          <li><strong>Handle convention.</strong> <a href="https://fed.brid.gy">Bridgy Fed</a> bridges accounts using a predictable handle, e.g. Bluesky's <code>alice.bsky.social</code> becomes <code>@alice.bsky.social@bsky.brid.gy</code> on the fediverse, and vice versa. We first check whether your other follow list already contains that exact bridged account.</li>
           <li><strong>Fuzzy fallback.</strong> If no account matches that convention, we look for a follow with the same display name or a shared link/domain in the bio, in case the account bridged under a different handle (e.g. a custom domain).</li>
           <li><strong>Live bridge check.</strong> Anything still unmatched gets a live webfinger/handle lookup against Bridgy Fed to see whether a bridge account actually exists on the other side yet. If it does, it lands in one of the "Follow on…" columns below. If it doesn't — or the lists are too large to check live — it lands in <strong>Unmatched / unbridged</strong>.</li>
         </ol>
