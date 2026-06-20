@@ -15,9 +15,8 @@ const instanceInput = document.getElementById('mastodon-instance');
 document.querySelectorAll('.show-toggle').forEach((button) => {
   button.addEventListener('click', () => {
     const target = document.getElementById(button.dataset.target);
-    const showing = target.type === 'text';
-    target.type = showing ? 'password' : 'text';
-    button.textContent = showing ? 'Show' : 'Hide';
+    const showing = target.classList.toggle('is-visible');
+    button.textContent = showing ? 'Hide' : 'Show';
   });
 });
 

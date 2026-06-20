@@ -179,6 +179,14 @@ main {
   flex: 1;
 }
 
+.secret-field {
+  -webkit-text-security: disc;
+}
+
+.secret-field.is-visible {
+  -webkit-text-security: none;
+}
+
 .show-toggle {
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -444,6 +452,10 @@ main {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.empty-state[hidden] {
+  display: none;
 }
 
 .empty-state::before {
