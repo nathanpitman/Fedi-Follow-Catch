@@ -1,7 +1,7 @@
 // Optional, opt-in convenience: remembers only the non-secret handle/instance
 // fields across visits. Never touches the app password or access token —
 // those still live only in page memory, per the trust promise in the README.
-const STORAGE_KEY = 'fedi-follow-fetch:remember';
+const STORAGE_KEY = 'fedi-follow-catch:remember';
 const REMEMBER_DAYS = 30;
 
 export function loadRemembered() {

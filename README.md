@@ -1,11 +1,11 @@
-# Fedi Follow Fetch
+# Fedi Follow Catch
 
 A free, static, client-side-only tool that compares your Bluesky and Mastodon
 follow lists — bridged via [Bridgy Fed](https://fed.brid.gy/) — and shows you
 who you follow on one network but not the other, with a direct follow link
 for each gap.
 
-[Live tool](https://nathanpitman.github.io/fedi-follow-fetch/) · a small
+[Live tool](https://nathanpitman.github.io/Fedi-Follow-Catch/) · a small
 [nathanpitman.com](https://nathanpitman.com) utility.
 
 ## Why
